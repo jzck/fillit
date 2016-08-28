@@ -1,8 +1,9 @@
 #ifndef FILLIT_H
+# include <fcntl.h>
+# include <stdio.h>
 # include "libft.h"
 # define FILLIT_H
 # define BUF_SIZE 32
-
 
 typedef struct	s_tetrim
 {
