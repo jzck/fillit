@@ -62,35 +62,8 @@ void	ft_free_board(char ***board)
 	*board = NULL;
 }
 
-void	ft_grow_board(char **board)
-{
-	int	i;
-	int	size;
 
-	size = ft_strlen(*board);
-	i = 0;
-	while (++i <= size)
-	{
-		board[i][size] = '.';
-		board[size][i] = '.';
-	}
-}
-
-void	ft_shrink_board(char **board)
-{
-	int	i;
-	int	size;
-
-	size = ft_strlen(*board);
-	i = -1;
-	while (++i < size)
-	{
-		board[i][size - 1] = '\0';
-		board[size - 1][i] = '\0';
-	}
-}
-
-void	ft_takeoff_board(char **board, char c)
+void	ft_board_remove(char **board, char c)
 {
 	int		i;
 	int		j;
@@ -107,7 +80,7 @@ void	ft_takeoff_board(char **board, char c)
 	}
 }
 
-int		ft_addto_board(char **board, t_ttmn block, size_t i, size_t j)
+int		ft_board_add(char **board, t_ttmn block, size_t i, size_t j)
 {
 	int		x;
 	int		y;
@@ -116,20 +89,26 @@ int		ft_addto_board(char **board, t_ttmn block, size_t i, size_t j)
 
 	size = ft_strlen(*board);
 	k = 0;
-	if (block.id)
-		while (k < 4)
-		{
-			x = (int)j + block.pos[k][1];
-			y = (int)i + block.pos[k][0];
-			/* printf("adding %c to %i,%i\n", block.id, y, x); */
-			/* fflush(stdout); */
-			if (x > size - 1 || y > size - 1 || x < 0 || y < 0)
-				return (1);
-			if (board[y][x] != '.')
-				return (1);
-			board[y][x] = block.id;
-			/* ft_show_board(board); */
-			k++;
-		}
+	while (k < 4)
+	{
+		x = (int)j + block.pos[k][1];
+		y = (int)i + block.pos[k][0];
+		/* printf("adding %c to %i,%i\n", block.id, y, x); */
+		/* fflush(stdout); */
+		if (x > size - 1 || y > size - 1 || x < 0 || y < 0)
+			return (1);
+		if (board[y][x] != '.')
+			return (1);
+		/* ft_show_board(board); */
+		k++;
+	}
+	k = 0;
+	while (k < 4)
+	{
+		x = (int)j + block.pos[k][1];
+		y = (int)i + block.pos[k][0];
+		board[y][x] = block.id;
+		k++;
+	}
 	return (0);
 }

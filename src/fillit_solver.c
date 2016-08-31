@@ -35,8 +35,8 @@ int		ft_solver(char **board, t_ttmn *ttmn)
 	int		i;
 	int		j;
 	int		size;
-	char	**tmp;
 
+	/* ft_show_board(board); */
 	size = ft_strlen(*board);
 	if (!(*ttmn).id)
 	{
@@ -50,22 +50,13 @@ int		ft_solver(char **board, t_ttmn *ttmn)
 		j = -1;
 		while (++j < size)
 		{
-			if (ft_addto_board(board, *ttmn, i, j))
-			{
-				ft_takeoff_board(board, ttmn->id);
+			if (ft_board_add(board, *ttmn, i, j))
 				continue ;
-			}
-			/* printf("validated for addto\n"); */
-			tmp = ft_copy_board(board);
-			if (size == (int)g_target && !ft_validate_waste(tmp, ttmn + 1))
-			{
-				ft_takeoff_board(board, ttmn->id);
-				continue ;
-			}
-			/* printf("validated for waste\n"); */
-			if (ft_solver(board, ttmn + 1))
+			if (size == (int)g_target && !ft_validate_waste(board, ttmn + 1))
+				;
+			else if (ft_solver(board, ttmn + 1))
 				return (1);
-			ft_takeoff_board(board, ttmn->id);
+			ft_board_remove(board, ttmn->id);
 		}
 	}
 	return (0);

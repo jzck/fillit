@@ -27,8 +27,8 @@ void	ft_show_board(char **board);
 
 void	ft_grow_board(char **board);
 void	ft_shrink_board(char **board);
-int		ft_addto_board(char **board, t_ttmn block, size_t i, size_t j);
-void	ft_takeoff_board(char **board, char c);
+int		ft_board_add(char **board, t_ttmn block, size_t i, size_t j);
+void	ft_board_remove(char **board, char c);
 
 int		ft_check_pos(char **board, t_ttmn block, int i, int j);
 int		ft_solver(char **board, t_ttmn *ttmn);
