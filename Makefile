@@ -18,7 +18,7 @@ F_LIB	=	ft
 F_LIB	:=	$(addprefix -l, $(F_LIB))
 
 W_FLAGS	=	-Wall -Wextra -Werror
-DEBUG	=
+DEBUG	=	-w
 MKDIR	=	mkdir -p
 RM		=	/bin/rm -rf
 

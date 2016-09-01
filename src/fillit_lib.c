@@ -1,5 +1,24 @@
 #include "fillit.h"
 
+char	**ft_empty_board(size_t size)
+{
+	char	**board;
+	int		i;
+	int		j;
+
+	board = (char **)malloc(sizeof(char *) * (size + 1));
+	i = -1;
+	while (++i < (int)size)
+	{
+		board[i] = ft_strnew(size);
+		j = -1;
+		while (++j < (int)size)
+			board[i][j] = '.';
+	}
+	board[i] = NULL;
+	return (board);
+}
+
 char	**ft_copy_board(char **board)
 {
 	size_t	size;
@@ -27,25 +46,6 @@ void	ft_fill_board(char **dst, char **src)
 		}
 		i++;
 	}
-}
-
-char	**ft_empty_board(size_t size)
-{
-	char	**board;
-	int		i;
-	int		j;
-
-	board = (char **)malloc(sizeof(char *) * (size + 1));
-	i = -1;
-	while (++i < (int)size)
-	{
-		board[i] = ft_strnew(size);
-		j = -1;
-		while (++j < (int)size)
-			board[i][j] = '.';
-	}
-	board[i] = NULL;
-	return (board);
 }
 
 void	ft_free_board(char ***board)
@@ -97,7 +97,7 @@ int		ft_board_add(char **board, t_ttmn block, size_t i, size_t j)
 		/* fflush(stdout); */
 		if (x > size - 1 || y > size - 1 || x < 0 || y < 0)
 			return (1);
-		if (board[y][x] != '.')
+		if (board[y][x] != '.' && board[y][x] != '*')
 			return (1);
 		/* ft_show_board(board); */
 		k++;

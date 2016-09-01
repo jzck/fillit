@@ -28,56 +28,58 @@ int		ft_waste_around(char ***board_ptr, int i, int j)
 	return (n);
 }
 
-int		ft_validate_waste(char **board, t_ttmn *ttmn)
+int		ft_additional_waste(char **board, t_ttmn *ttmn, int i, int j)
 {
-	int		max_waste;
-	int		waste;
-	int		i;
-	int		j;
-	int		blob;
-	size_t	size;
+	int	y;
+	int	x;
+	int	l;
+	int	size;
+
+	/* ft_show_board(board); */
+	y = i - 1;
+	x = j - 1;
+	size = ft_strlen(*board);
+	while (++y < size)
+	{
+		x = (x == size ? -1 : x);
+		while (++x < size);
+		{
+			l = -1;
+			while (ttmn[++l].id)
+				if (!ft_board_add(board, ttmn[l], i, j))
+					return (0);
+		}
+	}
+	return (1);
+}
+
+int		ft_validate_waste(char **board, t_ttmn *ttmn, int max_waste)
+{
+	int	waste;
+	int	i;
+	int	j;
+	int	blob;
+	int	size;
 
 	board = ft_copy_board(board);
-	max_waste = g_target * g_target - g_ttmn * 4;
 	waste = 0;
 	size = ft_strlen(*board);
 	i = -1;
 	/* ft_show_board(board); */
-	while (++i < (int)size)
+	while (++i < size)
 	{
 		j = -1;
-		while (++j < (int)size)
+		while (++j < size)
 		{
 			blob = ft_waste_here(&board, i, j);
-			if (blob == 4)
-			{
-				waste += 4;
-				int	l = -1;
-				/* ft_show_board(board); */
-				while (ttmn[++l].id)
-				{
-					/* ft_show_ttmn(ttmn[l]); */
-					/* printf("checking at %i,%i = %i vs %i\n", i, j, ft_check_pos(board, ttmn[l], i, j), (int)size); */
-					/* fflush(stdout); */
-					if (ft_check_pos(board, ttmn[l], i, j) == (int)size)
-					{
-						waste -= 4;
-						break ;
-					}
-				}
-			}
+			/* if (blob / 4 == 1) */
+			/* 	waste += ft_additional_waste(board, ttmn, i, j); */
 			waste += blob % 4;
 			if (waste > max_waste)
 			{
-				/* printf("waste = %i (failed: max = %i)\n", waste, max_waste); */
-				/* fflush(stdout); */
-				/* ft_free_board(&board); */
 				return (0);
 			}
 		}
 	}
-	/* printf("waste = %i (passed: max = %i)\n", waste, max_waste); */
-	/* fflush(stdout); */
-	/* ft_free_board(&board); */
 	return(1);
 }
