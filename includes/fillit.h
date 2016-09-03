@@ -25,13 +25,13 @@ void	ft_fill_board(char **dst, char **src);
 void	ft_show_ttmn(t_ttmn ttmn);
 void	ft_show_board(char **board);
 
-int		ft_board_add(char **board, t_ttmn block, size_t i, size_t j);
+int		ft_board_add(char **board, t_ttmn block, int i);
 void	ft_board_remove(char **board, char c);
 
 int		ft_solver(char **board, t_ttmn *ttmn);
 
-int		ft_validate_waste(char **board, t_ttmn *blocks, int max_waste);
-int		ft_waste_around(char ***board_ptr, int i, int j);
-int		ft_waste_here(char ***board_ptr, int i, int j);
+int		ft_validate_waste(char **board, t_ttmn *ttmn);
+int		ft_waste_around(char **board, int size, int i);
+int		ft_waste_here(char **board, int size, int i);
 
 #endif

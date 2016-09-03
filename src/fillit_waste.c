@@ -1,85 +1,127 @@
 #include "fillit.h"
 
-int		ft_waste_here(char ***board_ptr, int i, int j)
+int		ft_waste_here(char **board, int size, int i)
 {
 	int		n;
 
 	n = 0;
-	if (board_ptr[0][i][j] == '.')
+	if (board[i / size][i % size] == '.')
 	{
-		board_ptr[0][i][j] = '*';
+		board[i / size][i % size] = '*';
 		n++;
-		n += ft_waste_around(board_ptr, i, j);
+		n += ft_waste_around(board, size, i);
 	}
 	return (n);
 }
 
-int		ft_waste_around(char ***board_ptr, int i, int j)
+int		ft_waste_around(char **board, int size, int i)
 {
-	size_t	size;
-	size_t	n;
+	int		n;
 
-	size = ft_strlen(**board_ptr);
 	n = 0;
-	n += i > 0 ? ft_waste_here(board_ptr, i - 1, j) : 0;
-	n += j > 0 ? ft_waste_here(board_ptr, i, j - 1) : 0;
-	n += i < (int)size - 1 ? ft_waste_here(board_ptr, i + 1, j) : 0;
-	n += j < (int)size - 1 ? ft_waste_here(board_ptr, i, j + 1) : 0;
+	n += i / size > 0 ? ft_waste_here(board, size, i - size) : 0;
+	n += i % size > 0 ? ft_waste_here(board, size, i - 1) : 0;
+	n += i / size < size - 1 ? ft_waste_here(board, size, i + size) : 0;
+	n += i % size < size - 1 ? ft_waste_here(board, size, i + 1) : 0;
 	return (n);
 }
 
-int		ft_additional_waste(char **board, t_ttmn *ttmn, int i, int j)
+int		ft_fit_any(char **board, t_ttmn *ttmn, int i, int blob)
 {
-	int	y;
-	int	x;
-	int	l;
-	int	size;
+	int		y;
+	int		l;
+	int		size;
+	char	tmp;
+	int		n;
 
+	/* printf("going to fit any at %i,%i\n", i, j); */
+	/* fflush(stdout); */
 	/* ft_show_board(board); */
-	y = i - 1;
-	x = j - 1;
+	y = i;
+	n = blob;
 	size = ft_strlen(*board);
-	while (++y < size)
+	while (y < size * size)
 	{
-		x = (x == size ? -1 : x);
-		while (++x < size);
+		if (board[y / size][y % size] == '*')
 		{
+			n--;
 			l = -1;
+			/* printf("0 trying all at %i\n", y); */
+			/* fflush(stdout); */
 			while (ttmn[++l].id)
-				if (!ft_board_add(board, ttmn[l], i, j))
-					return (0);
+			{
+				/* printf("1 trying %c at %i\n", ttmn[l].id, y); */
+				/* fflush(stdout); */
+				if (ttmn[l].id == '0')
+					continue ;
+				if (ft_board_add(board, ttmn[l], y))
+					continue ;
+				/* printf("passed board add\n"); */
+				/* fflush(stdout); */
+				/* ft_show_board(board); */
+				ft_board_remove(board, '*');
+				ft_board_remove(board, '^');
+				if (!ttmn[1].id)
+					return(ft_solved(board));
+				tmp = ttmn[l].id;
+				ttmn[l].id = '0';
+				if (ft_solver(board, ttmn))
+					return (1);
+				ttmn[l].id = tmp;
+				ft_board_remove(board, ttmn[l].id);
+				ft_waste_here(board, size, y);
+				/* ft_show_board(board); */
+			}
+			/* printf("failed at %i\n", y); */
+			/* fflush(stdout); */
 		}
+		y++;
 	}
-	return (1);
+	return (0);
 }
 
-int		ft_validate_waste(char **board, t_ttmn *ttmn, int max_waste)
+int		ft_validate_waste(char **board, t_ttmn *ttmn)
 {
 	int	waste;
-	int	i;
-	int	j;
+	int	y;
 	int	blob;
 	int	size;
 
-	board = ft_copy_board(board);
+	if (ttmn->id == '0')
+		return (ft_solver(board, ttmn + 1));
+	if (!ttmn->id)
+		return (ft_solved(board));
 	waste = 0;
 	size = ft_strlen(*board);
-	i = -1;
+	y = -1;
 	/* ft_show_board(board); */
-	while (++i < size)
+	while (++y < size * size)
 	{
-		j = -1;
-		while (++j < size)
+		if (board[y / size][y % size] != '.')
+			continue ;
+		ft_board_replace(board, '*', '^');
+		blob = ft_waste_here(board, size, y);
+		/* printf("found blob=%i at %i\n", blob, y); */
+		/* fflush(stdout); */
+		/* ft_show_board(board); */
+		waste += blob % 4;
+		if (waste > size * size - 4 * g_ttmn)
 		{
-			blob = ft_waste_here(&board, i, j);
-			/* if (blob / 4 == 1) */
-			/* 	waste += ft_additional_waste(board, ttmn, i, j); */
-			waste += blob % 4;
-			if (waste > max_waste)
-			{
-				return (0);
-			}
+			ft_board_remove(board, '*');
+			ft_board_remove(board, '^');
+			return (0);
+		}
+		if (blob / 4 == 1 && ft_fit_any(board, ttmn, y, blob))
+			return (1);
+		waste += (blob / 4 == 1) ? 4 : 0;
+		if (waste > size * size - 4 * g_ttmn)
+		{
+			ft_board_remove(board, '*');
+			ft_board_remove(board, '^');
+			return (0);
 		}
 	}
-	return(1);
+	ft_board_remove(board, '*');
+	ft_board_remove(board, '^');
+	return (ft_solver(board, ttmn));
 }

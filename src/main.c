@@ -18,7 +18,7 @@ int		main(int ac, char **av)
 		ft_usage();
 		return (1);
 	}
-	size = g_target + 3;
+	size = g_target + 2;
 	while (size >= (int)g_target)
 	{
 		board = ft_empty_board(size);

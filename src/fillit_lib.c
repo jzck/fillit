@@ -62,6 +62,22 @@ void	ft_free_board(char ***board)
 	*board = NULL;
 }
 
+void	ft_board_replace(char **board, char a, char b)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	while (board[++i])
+	{
+		j = -1;
+		while (board[i][++j])
+		{
+			if (board[i][j] == a)
+				board[i][j] = b;
+		}
+	}
+}
 
 void	ft_board_remove(char **board, char c)
 {
@@ -80,34 +96,34 @@ void	ft_board_remove(char **board, char c)
 	}
 }
 
-int		ft_board_add(char **board, t_ttmn block, size_t i, size_t j)
+int		ft_board_add(char **board, t_ttmn block, int i)
 {
 	int		x;
 	int		y;
-	size_t	k;
+	int		k;
 	int		size;
 
 	size = ft_strlen(*board);
 	k = 0;
 	while (k < 4)
 	{
-		x = (int)j + block.pos[k][1];
-		y = (int)i + block.pos[k][0];
+		x = i % size + block.pos[k][1];
+		y = i / size + block.pos[k][0];
 		/* printf("adding %c to %i,%i\n", block.id, y, x); */
 		/* fflush(stdout); */
 		if (x > size - 1 || y > size - 1 || x < 0 || y < 0)
 			return (1);
-		if (board[y][x] != '.' && board[y][x] != '*')
+		if (board[y][x] != '.' && board[y][x] != '*' && board[y][x] != '^')
 			return (1);
-		/* ft_show_board(board); */
 		k++;
 	}
 	k = 0;
 	while (k < 4)
 	{
-		x = (int)j + block.pos[k][1];
-		y = (int)i + block.pos[k][0];
+		x = i % size + block.pos[k][1];
+		y = i / size + block.pos[k][0];
 		board[y][x] = block.id;
+		/* ft_show_board(board); */
 		k++;
 	}
 	return (0);
