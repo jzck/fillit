@@ -9,9 +9,8 @@ int		ft_solved(char **board)
 	return (1);
 }
 
-int		ft_solver(char **board, t_ttmn *ttmn)
+int		ft_solver(char **board, t_list *map, t_ttmn *ttmn)
 {
-	int		i;
 	int		j;
 	int		size;
 
@@ -21,15 +20,17 @@ int		ft_solver(char **board, t_ttmn *ttmn)
 		return (ft_solved(board));
 	/* ft_show_board(board); */
 	size = ft_strlen(*board);
-	i = -1;
-	while (++i < size * size)
+	while (map)
 	{
 		/* ft_show_board(board); */
-		if (ft_board_add(board, *ttmn, i))
+		if (ft_board_add(board, *ttmn, map->content))
 			continue ;
-		if (ft_validate_waste(board, ttmn + 1))
+		ft_map_remove(map, i, *ttmn);
+		if (ft_validate_waste(board, map, ttmn + 1))
 			return (1);
-		ft_board_remove(board, ttmn->id);
+		ft_map_add(map, i, *ttmn);
+		ft_board_remove_ttmn(&map, ttmn->id);
+		map = map->next;
 	}
 	return (0);
 }
