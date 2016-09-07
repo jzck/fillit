@@ -113,7 +113,7 @@ int		ft_board_add(char **board, t_ttmn block, int i)
 		/* fflush(stdout); */
 		if (x > size - 1 || y > size - 1 || x < 0 || y < 0)
 			return (1);
-		if (board[y][x] != '.' && board[y][x] != '*' && board[y][x] != '^')
+		if (board[y][x] != '.' && board[y][x] != '*')
 			return (1);
 		k++;
 	}
