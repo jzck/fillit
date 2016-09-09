@@ -40,7 +40,6 @@ t_list	*ft_get_ttmn(char *filename)
 	size_t		i;
 	size_t		j;
 	size_t		k;
-	size_t		l;
 	int			ref[2];
 	t_ttmn		ttmn;
 	t_list		*list;
@@ -100,7 +99,6 @@ t_list	*ft_get_ttmn(char *filename)
 					/* fflush(stdout); */
 					/* ft_show_ttmn(*(t_ttmn*)list->content); */
 					/* ft_show_ttmn(*(t_ttmn*)ft_lstlast(list)->content); */
-					l++;
 					j = -1;
 					k = 0;
 				}
@@ -125,7 +123,5 @@ t_list	*ft_get_ttmn(char *filename)
 	g_ttmn = ft_lstsize(list);
 	while ((g_ttmn * 4) > (g_target) * (g_target))
 		g_target++;
-	printf("n_ttmn=%zu, target=%zu\n", g_ttmn, g_target);
-	fflush(stdout);
 	return (list);
 }

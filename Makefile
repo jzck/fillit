@@ -17,10 +17,10 @@ F_LIB	=	ft
 F_LIB	:=	$(addprefix -l, $(F_LIB))
 
 W_FLAGS	=	-Wall -Wextra -Werror
-DEBUG	=	-w
+D_FLAGS	=	-g
+
 MKDIR	=	mkdir -p
 RM		=	/bin/rm -rf
-
 
 .PHONY: all clean fclean re lib/libft
 
@@ -28,14 +28,14 @@ all: $(NAME)
 
 $(D_OBJ)/%.o: $(D_SRC)/%.c $(D_INC)
 	@$(MKDIR) $(D_OBJ)
-	@$(CC) -I$(D_INC) $(W_FLAGS) -c $< -o $@ $(DEBUG)
+	@$(CC) -I$(D_INC) $(W_FLAGS) -c $< -o $@ $(D_FLAGS)
 	@echo "Compiling "$<"..."
 
 $(D_LIB):
 	@$(MAKE) -C $@ 2>/dev/null
 
 $(NAME): $(F_OBJ) $(D_LIB)
-	$(CC) -I$(D_INC) $(O_LIB) $(F_LIB) $(W_FLAGS) $(F_OBJ) -o $@ $(DEBUG)
+	$(CC) -I$(D_INC) $(O_LIB) $(F_LIB) $(W_FLAGS) $(F_OBJ) -o $@ $(D_FLAGS)
 
 clean:
 	$(RM) $(D_OBJ)

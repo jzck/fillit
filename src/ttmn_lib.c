@@ -2,7 +2,7 @@
 
 int		cmp_ttmn(t_ttmn a, t_ttmn b)
 {
-	return (ft_strcmp(a.id, b.id));
+	return (ft_strcmp(&a.id, &b.id));
 }
 
 void	ft_ttmn_reset(t_list *ttmn)
@@ -13,6 +13,7 @@ void	ft_ttmn_reset(t_list *ttmn)
 void	ft_map_delttmn(t_list **amap, int anchor, int pos[4][2], int size)
 {
 	int		i;
+	int		j;
 
 	i = -1;
 	fflush(stdout);
@@ -20,7 +21,8 @@ void	ft_map_delttmn(t_list **amap, int anchor, int pos[4][2], int size)
 	{
 		/* printf("deleting: %i\n", anchor + size * pos[i][0] + pos[i][1]); */
 		/* fflush(stdout); */
-		ft_lst_remove_if(amap, anchor + size * pos[i][0] + pos[i][1], &ft_diff);
+		j = anchor + size * pos[i][0] + pos[i][1];
+		ft_lst_remove_if(amap, &j, &ft_diff);
 	}
 }
 

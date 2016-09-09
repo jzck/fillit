@@ -1,9 +1,9 @@
 #ifndef FILLIT_H
+# define FILLIT_H
+# define BUF_SIZE 32
 # include <fcntl.h>
 # include <stdio.h>
 # include "libft.h"
-# define FILLIT_H
-# define BUF_SIZE 32
 
 extern int		g_target;
 extern int		g_ttmn;
@@ -31,10 +31,16 @@ void	ft_ttmn_reset(t_list *ttmn);
 int		ft_board_add(char **board, t_ttmn block, int i);
 void	ft_board_remove(char **board, char c);
 
-int		ft_solver(char **board, t_list **amap, t_list *lttmn, int waste);
+int		ft_solver(char **board, t_list **amap, t_list *lttmn, int space);
+int		ft_solved(char **board);
 
-/* int		ft_check_blobs(char **board, t_list **amap, t_list *lblob, t_list *lttmn, int waste); */
-t_list	*ft_waste_around(char **board, t_list **amap, int size, int i);
-t_list	*ft_waste_here(char **board, t_list **amap, int size, int i);
+int		ft_check_blobs(char **board, t_list **amap, t_list *lblob, t_list *lttmn, int space);
+int		ft_get_blobs(char **board, t_list **amap, t_list *lttmn, int space);
+
+t_list	*ft_empty_around(char **board, t_list **amap, int size, int i);
+t_list	*ft_empty_here(char **board, t_list **amap, int size, int i);
+
+void	ft_map_delttmn(t_list **amap, int anchor, int pos[4][2], int size);
+void	ft_map_addttmn(t_list **amap, int anchor, int pos[4][2], int size);
 
 #endif

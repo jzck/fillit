@@ -1,8 +1,7 @@
 #include "fillit.h"
 
-int		ft_fit_blob(char **board, t_list **amap, t_list *lblob, t_list *lttmn, int waste)
+int		ft_fit_blob(char **board, t_list **amap, t_list *lblob, t_list *lttmn, int space)
 {
-	t_list	*tmp;
 	t_list	*list;
 	t_list	*new_map;
 	t_list	*blob;
@@ -39,7 +38,7 @@ int		ft_fit_blob(char **board, t_list **amap, t_list *lblob, t_list *lttmn, int 
 			new_map = ft_lstmap(*amap, &ft_id);
 			/* printf("just fitted ttmn %c\n", ttmn->id); */
 			/* ft_show_ttmn(*ttmn); */
-			if (ft_check_blobs(board, &new_map, lblob->next, lttmn, waste))
+			if (ft_check_blobs(board, &new_map, lblob->next, lttmn, space))
 				return (1);
 			ttmn->placed = 0;
 			ft_board_remove(board, ttmn->id);
@@ -51,19 +50,17 @@ int		ft_fit_blob(char **board, t_list **amap, t_list *lblob, t_list *lttmn, int 
 	return (0);
 }
 
-int		ft_get_blobs(char **board, t_list **amap, t_list *lttmn)
+int		ft_get_blobs(char **board, t_list **amap, t_list *lttmn, int space)
 {
 	t_list	*lblob;
 	t_list	*blob;
 	t_list	*map;
-	int		waste;
 	int		size;
 	int		i;
 
 	if (!lttmn)
 		return (ft_solved(board));
 	lblob = NULL;
-	waste = 0;
 	size = ft_strlen(*board);
 	map = *amap;
 	/* ft_putendl("getting blobs for"); */
@@ -72,16 +69,23 @@ int		ft_get_blobs(char **board, t_list **amap, t_list *lttmn)
 	while (map)
 	{
 		i = *(int *)map->content;
-		blob = ft_waste_here(board, amap, size, i);
+		blob = ft_empty_here(board, amap, size, i);
 		map = *amap;
 		if (ft_lstsize(blob) / 4 > 0)
 			ft_lsteadd(&lblob, ft_lstnew(&blob, sizeof(t_list *)));
-		/* ft_lst_print(blob, &ft_putnbr); */
+		if (ft_lstsize(blob) / 4 <= 1)
+			space -= ft_lstsize(blob) % 4;
 		/* ft_lst_print(*(t_list **)ft_lstlast(lblob), &ft_putnbr); */
-		waste += ft_lstsize(blob) % 4;
-		if (waste > size * size - 4 * g_ttmn)
+		/* printf("took off %i, waste=%i\n", ft_lstsize(blob) % 4, size*size - 4*g_ttmn - space); */
+		/* ft_show_board(board); */
+		/* ft_lst_print(blob, &ft_putnbr); */
+		/* fflush(stdout); */
+		if (space < 0)
 		{
 			ft_board_remove(board, '*');
+			/* ft_show_board(board); */
+			/* printf("lack of space=%i\n", space); */
+			/* fflush(stdout); */
 			return (0);
 		}
 	}
@@ -90,10 +94,10 @@ int		ft_get_blobs(char **board, t_list **amap, t_list *lttmn)
 	/* ft_putendl("found blobs in map:"); */
 	/* ft_show_board(board); */
 	/* ft_lst_print2(lblob, &ft_putnbr); */
-	return (ft_check_blobs(board, amap, lblob, lttmn, waste));
+	return (ft_check_blobs(board, amap, lblob, lttmn, space));
 }
 
-int		ft_check_blobs(char **board, t_list **amap, t_list *lblob, t_list *lttmn, int waste)
+int		ft_check_blobs(char **board, t_list **amap, t_list *lblob, t_list *lttmn, int space)
 {
 	t_list	*blob;
 	t_list	*new_map;
@@ -103,14 +107,14 @@ int		ft_check_blobs(char **board, t_list **amap, t_list *lblob, t_list *lttmn, i
 	if (!lttmn)
 		return (ft_solved(board));
 	if (((t_ttmn *)lttmn->content)->placed)
-		return (ft_check_blobs(board, amap, lblob, lttmn->next, waste));
+		return (ft_check_blobs(board, amap, lblob, lttmn->next, space));
 	fflush(stdout);
 	if (!lblob)
 	{
 		/* printf("calling solver, no more blobs\n"); */
 		/* fflush(stdout); */
-
-		return (ft_solver(board, amap, lttmn, waste));
+		/* new_map = ft_lstmap(*amap, &ft_id); */
+		return (ft_solver(board, amap, lttmn, space));
 	}
 	size = ft_strlen(*board);
 	blob = *(t_list **)lblob->content;
@@ -120,18 +124,21 @@ int		ft_check_blobs(char **board, t_list **amap, t_list *lblob, t_list *lttmn, i
 	/* ft_lst_print2(lblob, &ft_putnbr); */
 	if (ft_lstsize(blob) / 4 == 1)
 	{
-		new_map = ft_lstmap(*amap, &ft_id);
-		if (ft_fit_blob(board, &new_map, lblob, lttmn, waste))
+		/* new_map = ft_lstmap(*amap, &ft_id); */
+		if (ft_fit_blob(board, amap, lblob, lttmn, space))
 		{
 			lblob = lblob->next;
 			return (1);
 		}
 		else
 		{
-			waste += 4;
-			if (waste > size * size - 4 * g_ttmn)
+			space -= 4;
+			/* printf("took off 4 from space : %i (fit)\n", space); */
+			/* fflush(stdout); */
+			if (space < 0)
 			{
-				/* ft_putendl("too much waste"); */
+				/* ft_show_board(board); */
+				/* ft_putendl("not enough space"); */
 				return (0);
 			}
 		}
@@ -146,5 +153,5 @@ int		ft_check_blobs(char **board, t_list **amap, t_list *lblob, t_list *lttmn, i
 		ft_lst_sorted_merge(amap, blob, &ft_diff);
 	}
 	new_map = ft_lstmap(*amap, &ft_id);
-	return(ft_check_blobs(board, &new_map, lblob->next, lttmn, waste));
+	return(ft_check_blobs(board, &new_map, lblob->next, lttmn, space));
 }
