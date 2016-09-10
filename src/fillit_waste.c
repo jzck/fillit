@@ -11,7 +11,7 @@ t_list	*ft_empty_here(char **board, t_list **amap, int size, int i)
 		/* ft_lst_print(*amap, &ft_putnbr); */
 		/* printf("removing %i from map\n", i); */
 		/* ft_lst_print(*amap, &ft_putnbr); */
-		ft_lst_remove_if(amap, &i, &ft_diff);
+		ft_lst_delif(amap, &i, &ft_diff, &ft_lst_cfree);
 		blob = ft_empty_around(board, amap, size, i);
 		ft_lst_sorted_insert(&blob, ft_lstnew(&i, sizeof(int)), &ft_diff);
 	}

@@ -28,9 +28,9 @@ int		ft_solver(char **board, t_list **amap, t_list *lttmn, int space)
 	/* ft_putendl("before solver"); */
 	/* printf("space=%i, waste=%i\n", space, size*size - 4*g_ttmn - space); */
 	/* fflush(stdout); */
-	/* ft_show_board(board); */
-	/* ft_lst_print(map, &ft_putnbr); */
-	/* ft_show_ttmn(*ttmn); */
+	ft_show_board(board);
+	ft_lst_print(map, &ft_putnbr);
+	ft_show_ttmn(*ttmn);
 	while (map)
 	{
 		i = *(int *)map->content;
@@ -55,7 +55,7 @@ int		ft_solver(char **board, t_list **amap, t_list *lttmn, int space)
 		/* fflush(stdout); */
 
 		ft_map_addttmn(amap, i, ttmn->pos, size);
-		ft_lst_remove_if(amap, &i, &ft_diff);
+		ft_lst_delif(amap, &i, &ft_diff, &ft_lst_cfree);
 		map = *amap;
 		ft_board_remove(board, ttmn->id);
 
