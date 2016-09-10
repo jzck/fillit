@@ -53,3 +53,62 @@
 /* 	} */
 /* 	return (0); */
 /* } */
+
+/* int		ft_check_blobs(char **board, t_list **amap, t_list *lblob, t_list *lttmn, int space) */
+/* { */
+/* 	t_list	*blob; */
+/* 	t_list	*new_map; */
+/* 	int		size; */
+
+/* 	/1* ft_putendl("at start of check_blobs"); *1/ */
+/* 	if (!lttmn) */
+/* 		return (ft_solved(board)); */
+/* 	if (((t_ttmn *)lttmn->content)->placed) */
+/* 		return (ft_check_blobs(board, amap, lblob, lttmn->next, space)); */
+/* 	fflush(stdout); */
+/* 	if (!lblob) */
+/* 	{ */
+/* 		/1* printf("calling solver, no more blobs\n"); *1/ */
+/* 		/1* fflush(stdout); *1/ */
+/* 		/1* new_map = ft_lstmap(*amap, &ft_id); *1/ */
+/* 		return (ft_solver(board, amap, lttmn, space)); */
+/* 	} */
+/* 	size = ft_strlen(*board); */
+/* 	blob = *(t_list **)lblob->content; */
+
+/* 	/1* ft_show_board(board); *1/ */
+/* 	/1* ft_lst_print(*amap, &ft_putnbr); *1/ */
+/* 	/1* ft_lst_print2(lblob, &ft_putnbr); *1/ */
+/* 	if (ft_lstsize(blob) / 4 == 1) */
+/* 	{ */
+/* 		/1* new_map = ft_lstmap(*amap, &ft_id); *1/ */
+/* 		if (ft_fit_blob(board, amap, lblob, lttmn, space)) */
+/* 		{ */
+/* 			lblob = lblob->next; */
+/* 			return (1); */
+/* 		} */
+/* 		else */
+/* 		{ */
+/* 			space -= 4; */
+/* 			/1* printf("took off 4 from space : %i (fit)\n", space); *1/ */
+/* 			/1* fflush(stdout); *1/ */
+/* 			if (space < 0) */
+/* 			{ */
+/* 				/1* ft_show_board(board); *1/ */
+/* 				/1* ft_putendl("not enough space"); *1/ */
+/* 				return (0); */
+/* 			} */
+/* 		} */
+/* 	} */
+/* 	else */
+/* 	{ */
+/* 		/1* ft_lst_print(*amap, &ft_putnbr); *1/ */
+/* 		/1* printf("blob too big, adding to map\n"); *1/ */
+/* 		/1* fflush(stdout); *1/ */
+/* 		/1* ft_lst_print(*amap, &ft_putnbr); *1/ */
+
+/* 		ft_lst_sorted_merge(amap, blob, &ft_diff); */
+/* 	} */
+/* 	new_map = ft_lstmap(*amap, &ft_id); */
+/* 	return(ft_check_blobs(board, &new_map, lblob->next, lttmn, space)); */
+/* } */

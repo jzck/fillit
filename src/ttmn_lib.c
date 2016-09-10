@@ -22,7 +22,7 @@ void	ft_map_delttmn(t_list **amap, int anchor, int pos[4][2], int size)
 		/* printf("deleting: %i\n", anchor + size * pos[i][0] + pos[i][1]); */
 		/* fflush(stdout); */
 		j = anchor + size * pos[i][0] + pos[i][1];
-		ft_lst_remove_if(amap, &j, &ft_diff);
+		ft_lst_delif(amap, &j, &ft_diff, &ft_lst_cfree);
 	}
 }
 
