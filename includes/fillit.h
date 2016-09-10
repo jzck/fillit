@@ -36,11 +36,16 @@ int		ft_solved(char **board);
 
 int		ft_check_blobs(char **board, t_list **amap, t_list *lblob, t_list *lttmn, int space);
 int		ft_get_blobs(char **board, t_list **amap, t_list *lttmn, int space);
+int		ft_fit_blob(char **board, t_list **amap, t_list *blob, t_list *lttmn, int space);
 
-t_list	*ft_empty_around(char **board, t_list **amap, int size, int i);
-t_list	*ft_empty_here(char **board, t_list **amap, int size, int i);
+t_list	*ft_empty_around(char **board, int size, int i);
+t_list	*ft_empty_here(char **board, int size, int i);
+int		ft_empty_around2(char **board, int size, int i);
+int		ft_empty_here2(char **board, int size, int i);
 
 void	ft_map_delttmn(t_list **amap, int anchor, int pos[4][2], int size);
 void	ft_map_addttmn(t_list **amap, int anchor, int pos[4][2], int size);
 
+void	ft_board_replace(char **board, char a, char b);
+int		ft_validate_waste(char **board, t_list **amap, t_list *lttmn, int space);
 #endif

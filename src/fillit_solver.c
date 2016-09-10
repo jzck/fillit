@@ -2,6 +2,7 @@
 
 int		ft_solved(char **board)
 {
+	ft_board_remove(board, '*');
 	g_sol = ft_copy_board(board);
 	return (1);
 }
@@ -12,7 +13,6 @@ int		ft_solver(char **board, t_list **amap, t_list *lttmn, int space)
 	int		i;
 	t_ttmn	*ttmn;
 	t_list	*map;
-	t_list	*valmap;
 
 	if (!lttmn)
 		return (ft_solved(board));
@@ -21,6 +21,8 @@ int		ft_solver(char **board, t_list **amap, t_list *lttmn, int space)
 		return (ft_solver(board, amap, lttmn->next, space));
 	size = ft_strlen(*board);
 	map = *amap;
+	/* ft_show_board(board); */
+	/* ft_lst_print(*amap, &ft_putnbr); */
 	while (map)
 	{
 		i = *(int *)map->content;
@@ -29,10 +31,20 @@ int		ft_solver(char **board, t_list **amap, t_list *lttmn, int space)
 			map = map->next;
 			continue ;
 		}
-		valmap = ft_lstmap(*amap, &ft_id);
-		ft_map_delttmn(&valmap, i, ttmn->pos, size);
-		if (ft_get_blobs(board, &valmap, lttmn->next, space))
+
+		t_list	*n_map = ft_lstmap(*amap, &ft_id);
+		ft_map_delttmn(&n_map, i, ttmn->pos, size);
+		if (ft_get_blobs(board, &n_map, lttmn->next, space))
 			return (1);
+
+		/* ft_map_delttmn(amap, i, ttmn->pos, size); */
+		/* if (ft_validate_waste(board, &n_map, lttmn->next, space)) */
+		/* 	return (1); */
+		if (ft_solver(board, amap, lttmn->next, space))
+			return (1);
+		/* ft_map_addttmn(amap, i, ttmn->pos, size); */
+		/* map = *amap; */
+
 		ft_board_remove(board, ttmn->id);
 		map = map->next;
 	}
