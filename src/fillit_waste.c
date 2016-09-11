@@ -30,16 +30,24 @@ t_list	*ft_empty_around(char **board, int size, int i)
 	return (add);
 }
 
-int		ft_empty_here2(char **board, int size, int i)
+int		ft_empty_here2(t_list *map, int size, int i)
 {
 	int		n;
+	char	c;
+	t_list	*list;
 
 	n = 0;
-	if (board[i / size][i % size] == '.')
+	list = ft_lst_find(map, &i, &ft_stack_cmp_num);
+	if (list)
 	{
-		board[i / size][i % size] = '*';
-		n++;
-		n += ft_empty_around2(board, size, i);
+		c = ((t_stack *)list->content)->id;
+		if (c == '.')
+		{
+			/* board[i / size][i % size] = '*'; */
+			((t_stack *)list->content)->id = '*';
+			n++;
+			n += ft_empty_around2(map, size, i);
+		}
 	}
 	/* printf("list at %i: ", i); */
 	/* fflush(stdout); */
@@ -47,15 +55,19 @@ int		ft_empty_here2(char **board, int size, int i)
 	return (n);
 }
 
-int		ft_empty_around2(char **board, int size, int i)
+int		ft_empty_around2(t_list *map, int size, int i)
 {
 	int		n;
 
 	n = 0;
-	n += i % size < size - 1 ? ft_empty_here2(board, size, i + 1) : 0;
-	n += i / size > 0 ? ft_empty_here2(board, size, i - size) : 0;
-	n += i % size > 0 ? ft_empty_here2(board, size, i - 1) : 0;
-	n += i / size < size - 1 ? ft_empty_here2(board, size, i + size) : 0;
+	/* n += i % size < size - 1 ? ft_empty_here2(board, size, i + 1) : 0; */
+	/* n += i / size > 0 ? ft_empty_here2(board, size, i - size) : 0; */
+	/* n += i % size > 0 ? ft_empty_here2(board, size, i - 1) : 0; */
+	/* n += i / size < size - 1 ? ft_empty_here2(board, size, i + size) : 0; */
+	n += i % size < size - 1 ?  ft_empty_here2(map, size, i + 1) : 0;
+	n += i / size > 0 ? ft_empty_here2(map, size, i - size) : 0;
+	n += i % size > 0 ? ft_empty_here2(map, size, i - 1) : 0;
+	n += i / size < size - 1 ? ft_empty_here2(map, size, i + size) : 0;
 	/* ft_lst_print(add, &ft_putnbr); */
 	return (n);
 }
