@@ -32,7 +32,7 @@ int		ft_validate_ttmn(t_ttmn ttmn)
 	return (0);
 }
 
-t_list	*ft_get_ttmn(char *filename)
+t_list	*ft_parse_ttmn(char *filename)
 {
 	int			fd;
 	char		buf[BUF_SIZE + 1];

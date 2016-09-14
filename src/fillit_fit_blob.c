@@ -1,44 +1,36 @@
 #include "fillit.h"
 
-int		ft_fit_blob(t_list **amap, t_list **astack, t_list *lttmn, int blob_size, int space, int size)
+int		ft_fit_blob(char **board, t_list *lttmn, int space, int size, int blob_size, int y)
 {
 	t_ttmn	*ttmn;
 	t_list	*list;
-	t_list	*blob;
-	t_stack	*stack;
-	int		n;
 	int		i;
+	int		n;
 
 	n = blob_size;
-	blob = *astack;
-	while (blob)
+	i = y - 1;
+	while (++i < size * size)
 	{
-		stack = blob->content;
-		/* ft_put_stack(stack); */
-		if (stack->id != '*')
+		if (board[i / size][i % size] == '*')
 		{
-			/* ft_putendl("iwtbf"); */
-			break ;
+			n--;
+			list = lttmn;
+			while (list)
+			{
+				ttmn = (t_ttmn *)list->content;
+				list = list->next;
+				if (ttmn->placed || ft_board_add(board, *ttmn, i, size))
+					continue ;
+				ttmn->placed = 1;
+				/* ft_board_print(board); */
+				if (ft_solver(board, lttmn, space, size))
+					return (1);
+				ft_board_replace(board, ttmn->id, '*');
+				ttmn->placed = 0;
+			}
 		}
-		stack->id = '.';
-		/* ft_lst_print(*astack, &ft_put_stack); */
-		/* ft_put_stack(stack); */
-		blob = blob->next;
-		i = stack->num;
-		list = lttmn;
-		while (list)
-		{
-			ttmn = (t_ttmn *)list->content;
-			list = list->next;
-			/* if (ttmn->placed */
-				/* || ft_stack_ttmn(amap, astack, i, ttmn->pos, ttmn->id, size)) */
-				/* continue ; */
-			ttmn->placed = 1;
-			if (ft_solver(amap, astack, lttmn, space, size))
-				return (1);
-			ttmn->placed = 0;
-		}
+		if (n < 4)
+			return (0);
 	}
-	/* ft_lst_print(*astack, &ft_put_stack); */
 	return (0);
 }
