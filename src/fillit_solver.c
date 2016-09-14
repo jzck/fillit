@@ -1,59 +1,48 @@
 #include "fillit.h"
 
-int		ft_solved(char **board)
+int		ft_solved(t_list **amap, t_list **astack, int size)
 {
-	ft_board_remove(board, '*');
-	g_sol = ft_copy_board(board);
 	ft_putendl("found solution:");
-	ft_show_board(board);
+
+	ft_lst_sort(astack, &ft_stack_cmp_num2);
+	ft_lst_sorted_merge(astack, *amap, &ft_stack_cmp_num2);
+	ft_lstiter(*astack, &ft_map_clean);
+	ft_stack_as_board(astack, size);
 	return (1);
 }
 
-int		ft_solver(char **board, t_list **amap, t_list **astack, t_list *lttmn, int space)
+int		ft_solver(t_list **amap, t_list **astack, t_list *lttmn, int space, int size)
 {
 	int		i;
-	int		size;
 	t_ttmn	*ttmn;
 	t_list	*map;
 
 	if (!lttmn)
-		return (ft_solved(board));
+		return (ft_solved(amap, astack, size));
 	ttmn = (t_ttmn *)lttmn->content;
 	if (ttmn->placed)
-		return (ft_solver(board, amap, astack, lttmn->next, space));
-	size = ft_strlen(*board);
+		return (ft_solver(amap, astack, lttmn->next, space, size));
 	map = *amap;
 
-	/* ft_show_board(board); */
 	/* ft_lst_print(*amap, &ft_put_stack); */
 	/* ft_lst_print(*astack, &ft_put_stack); */
+	/* ft_stack_as_board(astack, size); */
 	while (map)
 	{
 		i = ((t_stack *)map->content)->num;
-		if (ft_board_add(board, *ttmn, i))
-		{
-			map = map->next;
-			continue ;
-		}
-		ft_map_stack_ttmn(amap, astack, i, ttmn->pos, ttmn->id, size);
-		/* ft_show_board(board); */
-		/* ft_lst_print(*amap, &ft_put_stack); */
-		/* ft_lst_print(*astack, &ft_put_stack); */
-
-		if (ft_solve_blobs(board, amap, astack, lttmn->next, space))
-			return (1);
-		/* ft_putendl("p2"); */
-		/* ft_show_board(board); */
-		/* ft_lst_print(*amap, &ft_put_stack); */
-		/* ft_lst_print(*astack, &ft_put_stack); */
-
-		ft_map_unstack_ttmn(amap, astack, ttmn->id);
-		ft_lstiter(*amap, &ft_map_clean);
-		ft_board_remove(board, ttmn->id);
 		map = map->next;
+		if (ft_check_ttmnfit(amap, i, ttmn->pos, size))
+			continue ;
+		ft_stack_ttmn(amap, astack, i, ttmn->pos, size, ttmn->id);
 
-		/* ft_lst_print(*amap, &ft_put_stack); */
-		/* ft_lst_print(*astack, &ft_put_stack); */
+		/* if (ft_check_waste(amap, astack, lttmn->next, space, size)) */
+		/* 	return (1); */
+		/* if (ft_blobs(amap, astack, lttmn->next, space, size)) */
+		/* 	return (1); */
+		/* if (ft_solver(amap, astack, lttmn->next, space, size)) */
+		/* 	return (1); */
+
+		ft_unstack_ttmn(amap, astack, ttmn->id);
 	}
 	return (0);
 }

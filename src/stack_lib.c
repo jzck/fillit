@@ -1,5 +1,30 @@
 #include "fillit.h"
 
+void	ft_put_stack_id(t_list *list)
+{
+	t_stack	*stack;
+
+	stack = list->content;
+	ft_putchar(stack->id);
+}
+
+void	ft_stack_as_board(t_list **astack, int size)
+{
+	int		i;
+	t_list	*list;
+
+	list = *astack;
+	i = 1;
+	while (list)
+	{
+		ft_put_stack_id(list);
+		list = list->next;
+		if (i++ % size == 0)
+			ft_putendl("");
+	}
+}
+
+
 void	ft_put_stack(t_stack *content)
 {
 	ft_putnbr(content->num);
@@ -50,7 +75,8 @@ void	ft_map_clean(t_list *list)
 	t_stack *stack;
 
 	stack = (t_stack *)list->content;
-	stack->id = '.';
+	if (stack->id == '^')
+		stack->id = '.';
 }
 
 void	ft_map_switch(t_list *list)
@@ -77,19 +103,38 @@ void	ft_map_stack_stars(t_list **amap, t_list **astack, char c)
 	}
 }
 
-void	ft_map_stack_ttmn(t_list **amap, t_list **astack, int anchor, int pos[4][2], char id, int size)
+int		ft_check_ttmnfit(t_list **amap, int anchor, int pos[4][2], int size)
 {
 	int		i;
 	int		j;
-	t_list	*link;
+	int		x;
+	int		y;
+
+	i = -1;
+	while (++i < 4)
+	{
+		x = anchor % size + pos[i][1];
+		y = anchor / size + pos[i][0];
+		j = anchor + size * pos[i][0] + pos[i][1];
+		if (x > size - 1 || y > size - 1 || x < 0 || y < 0)
+			return (1);
+		if (!ft_lst_find(*amap, &j, &ft_stack_cmp_num))
+			return (1);
+	}
+	return (0);
+}
+
+void	ft_stack_ttmn(t_list **amap, t_list **astack, int anchor, int pos[4][2], int size, char id)
+{
+	int		i;
+	int		j;
 	t_stack	*stack;
+	t_list	*link;
 
 	i = -1;
 	while (++i < 4)
 	{
 		j = anchor + size * pos[i][0] + pos[i][1];
-		/* printf("moving: %i\n", j); */
-		/* fflush(stdout); */
 		link = ft_lst_removeif(amap, &j, &ft_stack_cmp_num);
 		stack = (t_stack *)link->content;
 		stack->id = id;
