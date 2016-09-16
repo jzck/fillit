@@ -28,10 +28,9 @@ int		ft_solver(char **board, t_list *lttmn, int space, int size);
 int		ft_solved(char **board);
 
 int		ft_check_waste(char **board, t_list *lttmn, int space, int size);
-int		ft_flood_fill(char **board, int size, int i, char c);
-
-int		ft_blobs(char **board, t_list *lttmn, int space, int size);
 int		ft_fit_blob(char **board, t_list *lttmn, int space, int size, int blob_size, int i);
+int		ft_floodfill_recursive(char **board, int size, int i, char c);
+int		ft_floodfill_stack(char **board, int size, int i, char c);
 
 void	ft_board_print(char **board);
 char	**ft_board_init(size_t size);

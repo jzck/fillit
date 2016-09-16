@@ -1,5 +1,6 @@
 NAME	=	fillit
 CC		=	gcc
+TAGFILE	=	.tags
 
 D_SRC	=	src
 F_SRC	:=	$(shell ls -1 $(D_SRC) | grep "\.c$$")
@@ -22,9 +23,13 @@ D_FLAGS	=
 MKDIR	=	mkdir -p
 RM		=	/bin/rm -rf
 
-.PHONY: all clean fclean re lib/libft
+.PHONY: all clean fclean re tags lib/libft
 
-all: $(NAME)
+all: $(NAME) tags
+
+tags:
+	@ctags -f $(TAGFILE) $(addprefix $(D_SRC)/, $(F_SRC))
+	@echo "Making tags..."
 
 $(D_OBJ)/%.o: $(D_SRC)/%.c $(D_INC)
 	@$(MKDIR) $(D_OBJ)

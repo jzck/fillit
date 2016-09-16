@@ -57,8 +57,6 @@ t_list	*ft_parse_ttmn(char *filename)
 		i = 0;
 		while (buf[i])
 		{
-			/* printf("%i, %i, %i: '%c'\n", i, j, k, buf[i]); */
-			/* fflush(stdout); */
 			if (buf[i] == '.')
 				;
 			else if (buf[i] == '#')
@@ -89,16 +87,7 @@ t_list	*ft_parse_ttmn(char *filename)
 					if (!ft_validate_ttmn(ttmn))
 						return (0);
 					tmp = ft_lstnew(&ttmn , sizeof(t_ttmn));
-					/* printf("list: %p\n", list); */
-					/* printf("new: %p\n", tmp); */
-					/* printf("new->next: %p\n", tmp->next); */
-					/* fflush(stdout); */
 					ft_lsteadd(&list, tmp);
-					/* printf("list: %p\n", list); */
-					/* printf("list->next: %p\n", list->next); */
-					/* fflush(stdout); */
-					/* ft_show_ttmn(*(t_ttmn*)list->content); */
-					/* ft_show_ttmn(*(t_ttmn*)ft_lstlast(list)->content); */
 					j = -1;
 					k = 0;
 				}

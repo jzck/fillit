@@ -1,0 +1,20 @@
+Mmain	src/main.c	/^int		main(int ac, char **av)$/
+ft_board_add	src/lib_board.c	/^int		ft_board_add(char **board, t_ttmn ttmn, int i/
+ft_board_copy	src/lib_board.c	/^char	**ft_board_copy(char **board)$/
+ft_board_fill	src/lib_board.c	/^void	ft_board_fill(char **dst, char **src)$/
+ft_board_free	src/lib_board.c	/^void	ft_board_free(char ***board)$/
+ft_board_init	src/lib_board.c	/^char	**ft_board_init(size_t size)$/
+ft_board_print	src/lib_board.c	/^void	ft_board_print(char **board)$/
+ft_board_remove	src/lib_board.c	/^void	ft_board_remove(char **board, char c)$/
+ft_board_replace	src/lib_board.c	/^void	ft_board_replace(char **board, char a, char b/
+ft_check_waste	src/fillit_check_waste.c	/^int		ft_check_waste(char **board, t_list *lttmn, i/
+ft_fit_blob	src/fillit_fit_blob.c	/^int		ft_fit_blob(char **board, t_list *lttmn, int /
+ft_floodfill_recursive	src/floodfill.c	/^int		ft_floodfill_recursive(char **board, int size/
+ft_floodfill_stack	src/floodfill.c	/^int		ft_floodfill_stack(char **board, int size, in/
+ft_parse_ttmn	src/fillit_parser.c	/^t_list	*ft_parse_ttmn(char *filename)$/
+ft_show_ttmn	src/lib_ttmn.c	/^void	ft_show_ttmn(t_ttmn ttmn)$/
+ft_solved	src/fillit_solver.c	/^int		ft_solved(char **board)$/
+ft_solver	src/fillit_solver.c	/^int		ft_solver(char **board, t_list *lttmn, int sp/
+ft_ttmn_reset	src/lib_ttmn.c	/^void	ft_ttmn_reset(t_list *ttmn)$/
+ft_usage	src/main.c	/^void	ft_usage(void)$/
+ft_validate_ttmn	src/fillit_parser.c	/^int		ft_validate_ttmn(t_ttmn ttmn)$/
