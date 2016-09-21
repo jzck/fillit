@@ -20,10 +20,10 @@ int		ft_validate_ttmn(t_ttmn ttmn)
 		while (++j < 4)
 		{
 			if (i != j
-				&& ((DIST(ttmn.pos[i][0], ttmn.pos[j][0]) == 0
-				&& DIST(ttmn.pos[i][1], ttmn.pos[j][1]) == 1)
-				|| (DIST(ttmn.pos[i][0], ttmn.pos[j][0]) == 1
-				&& DIST(ttmn.pos[i][1], ttmn.pos[j][1]) == 0)))
+				&& ((FT_DIST(ttmn.pos[i][0], ttmn.pos[j][0]) == 0
+				&& FT_DIST(ttmn.pos[i][1], ttmn.pos[j][1]) == 1)
+				|| (FT_DIST(ttmn.pos[i][0], ttmn.pos[j][0]) == 1
+				&& FT_DIST(ttmn.pos[i][1], ttmn.pos[j][1]) == 0)))
 				touch++;
 		}
 	}
