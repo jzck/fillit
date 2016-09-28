@@ -22,7 +22,10 @@ typedef struct	s_ttmn
 	int		pos[4][2];
 }				t_ttmn;
 
-t_list	*ft_parse_ttmn(char *filename);
+t_list	*ft_parse(char *filename);
+int		ft_parse_line(char *line, int linenumber, t_list **list);
+int		ft_parse_sharp(int *j, int *k, t_ttmn *ttmn);
+int		ft_parse_addttmn(int *j, int *k, t_ttmn ttmn, t_list **list);
 
 int		ft_solver(char **board, t_list *lttmn, int space, int size);
 int		ft_solved(char **board);
@@ -41,6 +44,7 @@ void	ft_board_replace(char **board, char a, char b);
 void	ft_board_remove(char **board, char c);
 int		ft_board_add(char **board, t_ttmn ttmn, int i, int size);
 
-void	ft_show_ttmn(t_ttmn ttmn);
+int		ft_ttmn_validate(t_ttmn ttmn);
+void	ft_ttmn_print(t_ttmn ttmn);
 void	ft_ttmn_reset(t_list *ttmn);
 #endif

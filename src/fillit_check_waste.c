@@ -19,11 +19,7 @@ int		ft_check_waste(char **board, t_list *lttmn, int space, int size)
 			continue ;
 		ft_board_replace(board, '*', '^');
 		blob_size = ft_floodfill_recursive(board, size, i, '*');
-		/* ft_board_print(board); */
-		/* printf("blob size = %i\n", blob_size); */
-		/* fflush(stdout); */
 		space -= blob_size % 4;
-
 		if (space < 0)
 		{
 			ft_board_remove(board, '^');

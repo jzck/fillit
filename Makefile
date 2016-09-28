@@ -10,7 +10,8 @@ D_OBJ	=	obj
 F_OBJ	=	$(F_SRC:.c=.o)
 DF_OBJ	:=	$(addprefix $(D_OBJ)/, $(F_OBJ))
 
-D_INC	=	includes
+D_INC	=	includes libft/includes
+O_INC	=	$(addprefix -I, $(D_INC))
 
 W_FLAGS	=	-Wall -Wextra -Werror
 D_FLAGS	=
@@ -22,8 +23,8 @@ RM		=	/bin/rm -rf
 
 all: libft/libft.a $(NAME) $(TAGFILE)
 
-test:
-	gcc -Iincludes main.c libftprintf.a
+test: all
+	cd fillit-tests && ./test 2
 
 $(TAGFILE): $(D_SRC)/*.c
 	@ctags -f $(TAGFILE) $(addprefix $(D_SRC)/, $(F_SRC))
@@ -31,14 +32,14 @@ $(TAGFILE): $(D_SRC)/*.c
 
 $(D_OBJ)/%.o: $(D_SRC)/%.c $(D_INC)
 	@$(MKDIR) $(D_OBJ)
-	@$(CC) -I$(D_INC) $(W_FLAGS) -c $< -o $@ $(D_FLAGS)
+	@$(CC) $(O_INC) $(W_FLAGS) -c $< -o $@ $(D_FLAGS)
 	@echo "Compiling "$<"..."
 
 libft/libft.a:
 	@$(MAKE) -C libft/ 2>/dev/null
 
 $(NAME): $(DF_OBJ)
-	$(CC) -I$(D_INC) -Llibft -lft $(W_FLAGS) $(DF_OBJ) -o $@ $(D_FLAGS)
+	$(CC) $(O_INC) -Llibft -lft $(W_FLAGS) $(DF_OBJ) -o $@ $(D_FLAGS)
 
 clean:
 	$(RM) $(D_OBJ)

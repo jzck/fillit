@@ -21,14 +21,12 @@ int		ft_solver(char **board, t_list *lttmn, int space, int size)
 	ttmn = (t_ttmn *)lttmn->content;
 	if (ttmn->placed)
 		return (ft_solver(board, lttmn->next, space, size));
-
-	/* ft_board_show(board); */
+	/* ft_board_print(board); */
 	i = -1;
 	while (++i < size * size)
 	{
 		if (ft_board_add(board, *ttmn, i, size))
 			continue ;
-
 		/* if (ft_solver(board, lttmn->next, space, size)) */
 		/* 	return (1); */
 		if (ft_check_waste(board, lttmn->next, space, size))

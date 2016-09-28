@@ -1,114 +1,100 @@
 #include "fillit.h"
-
 int	g_target = 0;
 int	g_ttmn = 0;
 
-int		ft_validate_ttmn(t_ttmn ttmn)
+int		ft_parse_line(char *line, int linenumber, t_list **list)
 {
-	size_t	i;
-	size_t	j;
-	int		touch;
+	static t_ttmn	ttmn;
+	static int		j = 0;
+	static int		k = 0;
+	int				i;
 
-	if (!(ttmn.id >= 'A' && ttmn.id <= 'Z'))
-		return(0);
-
-	i = -1;
-	touch = 0;
-	while (++i < 4)
+	if ((linenumber + 1) % 5 == 0)
 	{
-		j = -1;
-		while (++j < 4)
-		{
-			if (i != j
-				&& ((FT_DIST(ttmn.pos[i][0], ttmn.pos[j][0]) == 0
-				&& FT_DIST(ttmn.pos[i][1], ttmn.pos[j][1]) == 1)
-				|| (FT_DIST(ttmn.pos[i][0], ttmn.pos[j][0]) == 1
-				&& FT_DIST(ttmn.pos[i][1], ttmn.pos[j][1]) == 0)))
-				touch++;
-		}
+		if (ft_strlen(line) != 0)
+			return (1);
+		if (ft_parse_addttmn(&j, &k, ttmn, list))
+			return (1);
+		return (0);
 	}
-	if (touch == 6 || touch == 8)
+	if (ft_strlen(line) != 4)
 		return (1);
+	i = -1;
+	while (line[++i])
+	{
+		/* ft_printf("%i,%i,%i: %c\n", i, j, k, line[i]); */
+		if (!ft_strchr(".#", line[i]))
+			return (1);
+		else if (line[i] == '#' && ft_parse_sharp(&j, &k, &ttmn))
+			return (1);
+		j++;
+	}
 	return (0);
 }
 
-t_list	*ft_parse_ttmn(char *filename)
+int		ft_parse_sharp(int *j, int *k, t_ttmn *ttmn)
+{
+	static int		ref[2];
+
+	if (*k == 0)
+	{
+		ref[0] = *j / 4;
+		ref[1] = *j % 4;
+		/* ft_printf("refs: %i,%i\n", ref[0], ref[1]); */
+		ttmn->pos[0][0] = 0;
+		ttmn->pos[0][1] = 0;
+	}
+	else if (*k <= 3)
+	{
+		ttmn->pos[*k][0] = (*j) / 4 - ref[0];
+		ttmn->pos[*k][1] = (*j) % 4 - ref[1];
+		/* ft_printf("pos: %i,%i\n", ttmn->pos[*k][0], ttmn->pos[*k][1]); */
+	}
+	else
+		return (1);
+	*k += 1;
+	return (0);
+}
+
+int		ft_parse_addttmn(int *j, int *k, t_ttmn ttmn, t_list **list)
+{
+	static char		id = 'A';
+	t_list			*tmp;
+
+	ttmn.id = id++;
+	/* ft_printf("%i,%i\n", *j, *k); */
+	if (*j != 16 || *k != 4)
+		return (1);
+	if (ft_ttmn_validate(ttmn))
+		return (1);
+	tmp = ft_lstnew(&ttmn , sizeof(t_ttmn));
+	ft_lsteadd(list, tmp);
+	*j = 0;
+	*k = 0;
+	return (0);
+}
+
+t_list	*ft_parse(char *filename)
 {
 	int			fd;
-	char		buf[BUF_SIZE + 1];
 	int			ret;
-	size_t		i;
-	size_t		j;
-	size_t		k;
-	int			ref[2];
-	t_ttmn		ttmn;
+	char		*line;
+	int			linenumber;
 	t_list		*list;
-	t_list		*tmp;
 
 	list = NULL;
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
+	if ((fd = open(filename, O_RDONLY)) == -1)
 		return (0);
-	k = 0;
-	j = 0;
-	while ((ret = read(fd, buf, BUF_SIZE)))
+	linenumber = 0;
+	while ((ret = get_next_line(fd, &line)))
 	{
-		buf[ret] = '\0';
-		i = 0;
-		while (buf[i])
-		{
-			if (buf[i] == '.')
-				;
-			else if (buf[i] == '#')
-			{
-				if (k == 0)
-				{
-					ref[0] = j / 5;
-					ref[1] = j % 5;
-					ttmn.pos[0][0] = 0;
-					ttmn.pos[0][1] = 0;
-					ttmn.id = 'A' + ft_lstsize(list);
-				}
-				else if (k <= 3)
-				{
-					ttmn.pos[k][0] = j / 5 - ref[0];
-					ttmn.pos[k][1] = j % 5 - ref[1];
-				}
-				else
-					return (0);
-				k++;
-			}
-			else if (buf[i] == '\n')
-			{
-				if (i > 0 && buf[i - 1] == '\n')
-				{
-					if (j != 20)
-						return (0);
-					if (!ft_validate_ttmn(ttmn))
-						return (0);
-					tmp = ft_lstnew(&ttmn , sizeof(t_ttmn));
-					ft_lsteadd(&list, tmp);
-					j = -1;
-					k = 0;
-				}
-				else
-				{
-					if ((j + 1) % 5 != 0)
-						return (0);
-				}
-			}
-			else
-				return (0);
-			i++;
-			j++;
-		}
+		/* ft_printf("parsing line:%s\n", line); */
+		if (ft_parse_line(line, linenumber++, &list))
+			return (0);
 	}
-	if (j != 20)
+	if (ft_parse_line("", linenumber, &list))
 		return (0);
-	if (!ft_validate_ttmn(ttmn))
-		return (0);
-	ft_lsteadd(&list, ft_lstnew(&ttmn , sizeof(t_ttmn)));
-	g_target = 2;
+	g_target = 4;
 	g_ttmn = ft_lstsize(list);
 	while ((g_ttmn * 4) > (g_target) * (g_target))
 		g_target++;

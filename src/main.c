@@ -13,7 +13,7 @@ int		main(int ac, char **av)
 	char	**board;
 	int		size;
 
-	if (ac != 2 || !(lttmn = ft_parse_ttmn(av[1])))
+	if (ac != 2 || !(lttmn = ft_parse(av[1])))
 	{
 		ft_usage();
 		return (1);
