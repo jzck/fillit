@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fillit_parser.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/03 17:29:51 by jhalford          #+#    #+#             */
+/*   Updated: 2016/11/03 17:31:00 by jhalford         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
+
 int	g_target = 0;
 int	g_ttmn = 0;
 
@@ -22,7 +35,6 @@ int		ft_parse_line(char *line, int linenumber, t_list **list)
 	i = -1;
 	while (line[++i])
 	{
-		/* ft_printf("%i,%i,%i: %c\n", i, j, k, line[i]); */
 		if (!ft_strchr(".#", line[i]))
 			return (1);
 		else if (line[i] == '#' && ft_parse_sharp(&j, &k, &ttmn))
@@ -40,7 +52,6 @@ int		ft_parse_sharp(int *j, int *k, t_ttmn *ttmn)
 	{
 		ref[0] = *j / 4;
 		ref[1] = *j % 4;
-		/* ft_printf("refs: %i,%i\n", ref[0], ref[1]); */
 		ttmn->pos[0][0] = 0;
 		ttmn->pos[0][1] = 0;
 	}
@@ -48,7 +59,6 @@ int		ft_parse_sharp(int *j, int *k, t_ttmn *ttmn)
 	{
 		ttmn->pos[*k][0] = (*j) / 4 - ref[0];
 		ttmn->pos[*k][1] = (*j) % 4 - ref[1];
-		/* ft_printf("pos: %i,%i\n", ttmn->pos[*k][0], ttmn->pos[*k][1]); */
 	}
 	else
 		return (1);
@@ -62,12 +72,11 @@ int		ft_parse_addttmn(int *j, int *k, t_ttmn ttmn, t_list **list)
 	t_list			*tmp;
 
 	ttmn.id = id++;
-	/* ft_printf("%i,%i\n", *j, *k); */
 	if (*j != 16 || *k != 4)
 		return (1);
 	if (ft_ttmn_validate(ttmn))
 		return (1);
-	tmp = ft_lstnew(&ttmn , sizeof(t_ttmn));
+	tmp = ft_lstnew(&ttmn, sizeof(t_ttmn));
 	ft_lsteadd(list, tmp);
 	*j = 0;
 	*k = 0;
@@ -88,7 +97,6 @@ t_list	*ft_parse(char *filename)
 	linenumber = 0;
 	while ((ret = get_next_line(fd, &line)))
 	{
-		/* ft_printf("parsing line:%s\n", line); */
 		if (ft_parse_line(line, linenumber++, &list))
 			return (0);
 	}

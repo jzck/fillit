@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lib_board.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/03 17:34:39 by jhalford          #+#    #+#             */
+/*   Updated: 2016/11/03 17:35:39 by jhalford         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
 
 void	ft_board_print(char **board)
 {
-	/* ft_putendl("-s-"); */
 	while (*board)
 		ft_putendl(*board++);
 	ft_putendl("");
@@ -55,4 +66,3 @@ void	ft_board_fill(char **dst, char **src)
 		i++;
 	}
 }
-

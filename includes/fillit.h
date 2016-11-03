@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fillit.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/03 17:38:16 by jhalford          #+#    #+#             */
+/*   Updated: 2016/11/03 17:39:41 by jhalford         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FILLIT_H
 # define FILLIT_H
 # define BUF_SIZE 32
@@ -9,18 +21,21 @@ extern int		g_target;
 extern int		g_ttmn;
 extern char		**g_sol;
 
-typedef struct	s_stack
+struct	s_stack
 {
 	char	id;
 	int		num;
-}				t_stack;
+};
 
-typedef struct	s_ttmn
+struct	s_ttmn
 {
 	char	id;
 	int		placed;
 	int		pos[4][2];
-}				t_ttmn;
+};
+
+typedef struct s_stack	t_stack;
+typedef struct s_ttmn	t_ttmn;
 
 t_list	*ft_parse(char *filename);
 int		ft_parse_line(char *line, int linenumber, t_list **list);
@@ -31,7 +46,8 @@ int		ft_solver(char **board, t_list *lttmn, int space, int size);
 int		ft_solved(char **board);
 
 int		ft_check_waste(char **board, t_list *lttmn, int space, int size);
-int		ft_fit_blob(char **board, t_list *lttmn, int space, int size, int blob_size, int i);
+int		ft_fit_blob(
+		char **board, t_list *lttmn, int space, int size, int blob_size, int i);
 int		ft_floodfill_recursive(char **board, int size, int i, char c);
 int		ft_floodfill_stack(char **board, int size, int i, char c);
 

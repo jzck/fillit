@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lib_ttmn.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/03 17:32:01 by jhalford          #+#    #+#             */
+/*   Updated: 2016/11/03 17:34:16 by jhalford         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
 
 int		ft_ttmn_validate(t_ttmn ttmn)
@@ -7,7 +19,7 @@ int		ft_ttmn_validate(t_ttmn ttmn)
 	int		touch;
 
 	if (!(ttmn.id >= 'A' && ttmn.id <= 'Z'))
-		return(1);
+		return (1);
 	i = -1;
 	touch = 0;
 	while (++i < 4)
@@ -26,22 +38,6 @@ int		ft_ttmn_validate(t_ttmn ttmn)
 	if (touch == 6 || touch == 8)
 		return (0);
 	return (1);
-}
-
-void	ft_ttmn_print(t_ttmn ttmn)
-{
-	int		i;
-
-	if (!ttmn.id)
-	{
-		ft_putendl("end of ttmn\n");
-		return ;
-	}
-	printf("%c,%i", ttmn.id, ttmn.placed);
-	for (i=1; i < 4; i++)
-		printf("\t%d,%d\n", ttmn.pos[i][0], ttmn.pos[i][1]);
-	fflush(stdout);
-	ft_putendl("");
 }
 
 void	ft_ttmn_reset(t_list *ttmn)

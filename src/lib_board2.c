@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lib_board2.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/03 17:31:46 by jhalford          #+#    #+#             */
+/*   Updated: 2016/11/03 17:31:51 by jhalford         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
 
 int		ft_board_add(char **board, t_ttmn ttmn, int i, int size)
@@ -11,8 +23,6 @@ int		ft_board_add(char **board, t_ttmn ttmn, int i, int size)
 	{
 		x = i % size + ttmn.pos[k][1];
 		y = i / size + ttmn.pos[k][0];
-		/* printf("adding %c to %i,%i\n", block.id, y, x); */
-		/* fflush(stdout); */
 		if (x > size - 1 || y > size - 1 || x < 0 || y < 0)
 			return (1);
 		if (board[y][x] != '.' && board[y][x] != '*')
@@ -25,7 +35,6 @@ int		ft_board_add(char **board, t_ttmn ttmn, int i, int size)
 		x = i % size + ttmn.pos[k][1];
 		y = i / size + ttmn.pos[k][0];
 		board[y][x] = ttmn.id;
-		/* ft_show_board(board); */
 		k++;
 	}
 	return (0);
