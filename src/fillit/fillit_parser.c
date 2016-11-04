@@ -6,7 +6,7 @@
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 17:29:51 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/03 17:31:00 by jhalford         ###   ########.fr       */
+/*   Updated: 2016/11/04 13:48:55 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_list	*ft_parse(char *filename)
 	}
 	if (ft_parse_line("", linenumber, &list))
 		return (0);
-	g_target = 4;
+	g_target = 3;
 	g_ttmn = ft_lstsize(list);
 	while ((g_ttmn * 4) > (g_target) * (g_target))
 		g_target++;

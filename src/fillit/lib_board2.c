@@ -6,7 +6,7 @@
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 17:31:46 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/03 17:31:51 by jhalford         ###   ########.fr       */
+/*   Updated: 2016/11/04 13:38:18 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,19 +71,23 @@ void	ft_board_replace(char **board, char a, char b)
 	}
 }
 
-void	ft_board_remove(char **board, char c)
+void	ft_board_remove(char **board, char *s)
 {
 	int		i;
 	int		j;
 
-	i = -1;
-	while (board[++i])
+	while (*s)
 	{
-		j = -1;
-		while (board[i][++j])
+		i = -1;
+		while (board[++i])
 		{
-			if (board[i][j] == c)
-				board[i][j] = '.';
+			j = -1;
+			while (board[i][++j])
+			{
+				if (board[i][j] == *s)
+					board[i][j] = '.';
+			}
 		}
+		s++;
 	}
 }

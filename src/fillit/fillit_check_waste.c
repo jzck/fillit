@@ -1,43 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit_solver.c                                    :+:      :+:    :+:   */
+/*   fillit_check_waste.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/03 17:36:27 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/03 17:38:05 by jhalford         ###   ########.fr       */
+/*   Created: 2016/11/04 13:24:35 by jhalford          #+#    #+#             */
+/*   Updated: 2016/11/04 13:30:16 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-int		ft_solved(char **board)
+int		ft_check_waste(char **board, t_list *lttmn, int space, int size)
 {
-	ft_board_remove(board, '^');
-	ft_board_remove(board, '*');
-	g_sol = ft_board_copy(board);
-	return (1);
-}
-
-int		ft_solver(char **board, t_list *lttmn, int space, int size)
-{
-	int		i;
 	t_ttmn	*ttmn;
+	int		i;
+	int		blob_size;
 
 	if (!lttmn)
 		return (ft_solved(board));
 	ttmn = (t_ttmn *)lttmn->content;
 	if (ttmn->placed)
 		return (ft_solver(board, lttmn->next, space, size));
+	space = size * size - 4 * g_ttmn;
 	i = -1;
 	while (++i < size * size)
 	{
-		if (ft_board_add(board, *ttmn, i, size))
+		if (board[i / size][i % size] != '.')
 			continue ;
-		if (ft_check_waste(board, lttmn->next, space, size))
-			return (1);
-		ft_board_remove(board, ttmn->id);
+		ft_board_replace(board, '*', '^');
+		blob_size = ft_floodfill_recursive(board, size, i, '*');
+		space -= blob_size % 4;
+		if (space < 0)
+		{
+			ft_board_remove(board, "^*");
+			return (0);
+		}
+		if (blob_size / 4 == 1)
+		{
+			if (ft_fit_blob(board, lttmn, space, size, blob_size, i))
+				return (1);
+			space -= 4;
+			if (space < 0)
+			{
+				ft_board_remove(board, "^*");
+				return (0);
+			}
+		}
 	}
-	return (0);
+	ft_board_remove(board, "^*");
+	return (ft_solver(board, lttmn, space, size));
 }

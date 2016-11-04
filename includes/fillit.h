@@ -6,7 +6,7 @@
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 17:38:16 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/03 17:39:41 by jhalford         ###   ########.fr       */
+/*   Updated: 2016/11/04 14:07:38 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**ft_board_copy(char **board);
 void	ft_board_fill(char **dst, char **src);
 void	ft_board_free(char ***board);
 void	ft_board_replace(char **board, char a, char b);
-void	ft_board_remove(char **board, char c);
+void	ft_board_remove(char **board, char *s);
 int		ft_board_add(char **board, t_ttmn ttmn, int i, int size);
 
 int		ft_ttmn_validate(t_ttmn ttmn);

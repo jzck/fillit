@@ -1,43 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/03 17:31:13 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/03 17:37:59 by jhalford         ###   ########.fr       */
+/*   Created: 2016/11/03 14:58:45 by jhalford          #+#    #+#             */
+/*   Updated: 2016/11/03 19:45:38 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "libft.h"
 
-char	**g_sol = NULL;
-
-void	ft_usage(void)
+char	*ft_strtrim(char const *s)
 {
-	ft_putendl("error");
-}
-
-int		main(int ac, char **av)
-{
-	t_list	*lttmn;
-	char	**board;
+	char	*out;
 	int		size;
 
-	if (ac != 2 || !(lttmn = ft_parse(av[1])))
+	if (!s)
+		return (NULL);
+	out = ft_strdup(s);
+	while (*out && FT_SEP(*out))
+		out++;
+	if (!out)
+		return (NULL);
+	size = ft_strlen(out) - 1;
+	while (size >= 0 && FT_SEP(out[size]))
 	{
-		ft_usage();
-		return (1);
-	}
-	size = g_target + 2;
-	while (size >= g_target)
-	{
-		board = ft_board_init(size);
-		ft_lstiter(lttmn, &ft_ttmn_reset);
-		ft_solver(board, lttmn, size * size - 4 * g_ttmn, size);
+		out[size] = '\0';
 		size--;
 	}
-	ft_board_print(g_sol);
-	return (0);
+	return (out);
 }
