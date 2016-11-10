@@ -6,7 +6,7 @@
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 17:38:16 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/04 14:07:38 by jhalford         ###   ########.fr       */
+/*   Updated: 2016/11/08 16:51:11 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		ft_solved(char **board);
 
 int		ft_check_waste(char **board, t_list *lttmn, int space, int size);
 int		ft_fit_blob(
-		char **board, t_list *lttmn, int space, int size, int blob_size, int i);
+		char **board, t_list *lttmn, int space, int size);
 int		ft_floodfill_recursive(char **board, int size, int i, char c);
 int		ft_floodfill_stack(char **board, int size, int i, char c);
 

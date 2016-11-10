@@ -6,27 +6,27 @@
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 17:39:49 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/03 17:42:03 by jhalford         ###   ########.fr       */
+/*   Updated: 2016/11/08 16:59:50 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
 int		ft_fit_blob(
-		char **board, t_list *lttmn, int space, int size, int blob_size, int y)
+		char **board,
+		t_list *lttmn,
+		int space,
+		int size)
 {
 	t_ttmn	*ttmn;
 	t_list	*list;
 	int		i;
-	int		n;
 
-	n = blob_size;
-	i = y - 1;
+	i = -1;
 	while (++i < size * size)
 	{
 		if (board[i / size][i % size] == '*')
 		{
-			n--;
 			list = lttmn;
 			while (list)
 			{
@@ -41,8 +41,6 @@ int		ft_fit_blob(
 				ttmn->placed = 0;
 			}
 		}
-		if (n < 4)
-			return (0);
 	}
 	return (0);
 }

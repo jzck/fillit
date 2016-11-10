@@ -6,7 +6,7 @@
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 15:00:29 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/04 13:35:02 by jhalford         ###   ########.fr       */
+/*   Updated: 2016/11/08 17:23:41 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,8 @@ t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
 void	ft_lsteadd(t_list **alst, t_list *new);
 int		ft_lstsize(t_list *lst);
+void	ft_lst_cfree(void *ptr, size_t size);
 int		get_next_line(int const fd, char **line);
+
+void	ft_sstrfree(char **sstr);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 17:31:13 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/04 13:48:23 by jhalford         ###   ########.fr       */
+/*   Updated: 2016/11/08 17:26:50 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ int		main(int ac, char **av)
 		board = ft_board_init(size);
 		ft_lstiter(lttmn, &ft_ttmn_reset);
 		ft_solver(board, lttmn, size * size - 4 * g_ttmn, size);
+		ft_sstrfree(board);
 		size--;
 	}
+	ft_lstdel(&lttmn, &ft_lst_cfree);
 	ft_board_print(g_sol);
 	return (0);
 }
