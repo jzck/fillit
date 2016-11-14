@@ -6,7 +6,7 @@
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 17:36:27 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/08 17:26:58 by jhalford         ###   ########.fr       */
+/*   Updated: 2016/11/14 10:54:50 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int		ft_solved(char **board)
 {
 	ft_board_remove(board, "^*");
+	ft_sstrfree(g_sol);
 	g_sol = ft_board_copy(board);
 	return (1);
 }

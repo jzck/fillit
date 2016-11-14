@@ -6,7 +6,7 @@
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 17:01:24 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/08 17:09:26 by jhalford         ###   ########.fr       */
+/*   Updated: 2016/11/14 10:38:49 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,14 @@ void	ft_sstrfree(char **sstr)
 	int		i;
 
 	i = 0;
-	while (sstr[i])
+	if (sstr)
 	{
+		while (sstr[i])
+		{
+			ft_strdel(sstr + i);
+			i++;
+		}
 		ft_strdel(sstr + i);
-		i++;
 	}
+	free(sstr);
 }

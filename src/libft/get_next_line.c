@@ -6,14 +6,14 @@
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 12:45:02 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/04 13:43:29 by jhalford         ###   ########.fr       */
+/*   Updated: 2016/11/14 11:06:04 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#define BUFF_SIZE 32
+#define BUFF_SIZE 16
 
-static char		*ft_realloc(char *line, int size)
+static char		*ft_strrealloc(char *line, int size)
 {
 	char	*str;
 
@@ -41,10 +41,11 @@ static int		ft_loop_read(int fd, char **line, char (*save)[])
 			ft_strcat(*line, buf);
 			return (1);
 		}
-		if ((*line = ft_realloc(*line, ret)) == NULL)
+		if ((*line = ft_strrealloc(*line, ret)) == NULL)
 			return (-1);
 		ft_strcat(*line, buf);
 	}
+	free(*line);
 	return (0);
 }
 

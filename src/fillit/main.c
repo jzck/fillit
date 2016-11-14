@@ -6,7 +6,7 @@
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 17:31:13 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/08 17:26:50 by jhalford         ###   ########.fr       */
+/*   Updated: 2016/11/14 10:46:17 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ int		main(int ac, char **av)
 	}
 	ft_lstdel(&lttmn, &ft_lst_cfree);
 	ft_board_print(g_sol);
+	ft_sstrfree(g_sol);
 	return (0);
 }

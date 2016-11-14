@@ -6,7 +6,7 @@
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 17:31:46 by jhalford          #+#    #+#             */
-/*   Updated: 2016/11/08 16:49:44 by jhalford         ###   ########.fr       */
+/*   Updated: 2016/11/14 10:15:44 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,6 @@ int		ft_board_add(char **board, t_ttmn ttmn, int i, int size)
 		k++;
 	}
 	return (0);
-}
-
-void	ft_board_free(char ***board)
-{
-	int		i;
-
-	i = 0;
-	while ((*board)[i])
-	{
-		free((*board)[i]);
-		i++;
-	}
-	free(*board);
-	*board = NULL;
 }
 
 void	ft_board_replace(char **board, char a, char b)
